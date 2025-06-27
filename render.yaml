@@ -2,6 +2,6 @@ services:
   - type: web
     name: math-edu-app
     env: docker
-    plain: free
+    plan: free
     dockerfilePath: ./Dockerfile
 
