@@ -1,21 +1,21 @@
 services:
   - type: web
     name: math-edu-app
-    env: docker
+    runtime: php
     plan: free
     region: oregon
-    dockerfilePath: ./Dockerfile
     buildCommand: |
-      composer install
+      composer install --no-dev --optimize-autoloader
       php artisan key:generate
       php artisan migrate --force
+      php artisan config:cache
     startCommand: |
       php artisan serve --host=0.0.0.0 --port=10000
     envVars:
       - key: APP_ENV
         value: production
       - key: APP_KEY
-        value: YOUR-GENERATED-KEY-HERE
+        value: base64:RGTVOMi8wZgSdMATPACjwMsMVzkHyRm/UhAXgQ/2SG8=
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
