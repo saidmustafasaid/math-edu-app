@@ -1,8 +1,19 @@
 services:
   - type: web
-    name: math-edu-app
+    name: math-db
     env: docker
     plan: free
     branch: main
     region: oregon
+    startCommand: |
+      bash -c "
+        until nc -z math_db.onrender.com 5432; do
+          echo '⏳ Waiting for PostgreSQL...';
+          sleep 3;
+        done;
+        composer install --no-interaction --prefer-dist --optimize-autoloader && \
+        php artisan migrate --force && \
+        php artisan config:cache && \
+        apache2-foreground
+      "
 
