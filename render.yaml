@@ -1,35 +1,30 @@
 services:
   - type: web
-    name: math-edu-app  
-    runtime: php
+    name: math-edu-app
+    env: docker
     plan: free
     region: oregon
+    dockerfilePath: ./Dockerfile
     buildCommand: |
       composer install --no-dev --optimize-autoloader
       php artisan key:generate
-      php artisan migrate --force || true
-      php artisan config:cache
+      php artisan migrate --force
     startCommand: |
-      php artisan serve --host=0.0.0.0 --port=10000
+      php artisan serve --host=0.0.0.0 --port=8000
     envVars:
       - key: APP_ENV
         value: production
-      - key: APP_DEBUG
-        value: 'true'
-      - key: APP_URL
-        value: https://math-edu-app.onrender.com
       - key: APP_KEY
-        value: base64:RGTVOMi8wZgSdMATPACjwMsMVzkHyRm/UhAXgQ/2SG8=
+        value: base64:YOUR-KEY-HERE
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
-        value: dpg-d1f1487gi27c7386ju00-a
+        value: YOUR-DB-HOST
       - key: DB_PORT
         value: 5432
       - key: DB_DATABASE
-        value: math_db_n86b
+        value: YOUR-DB-NAME
       - key: DB_USERNAME
-        value: math_user
+        value: YOUR-DB-USERNAME
       - key: DB_PASSWORD
-        value: fmMlbTFG41DailykbQiFNPm374x8yicf
-
+        value: YOUR-DB-PASSWORD
