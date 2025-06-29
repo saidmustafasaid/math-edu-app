@@ -1,19 +1,31 @@
 services:
   - type: web
-    name: math-db
+    name: math-edu-app
     env: docker
     plan: free
-    branch: main
     region: oregon
+    dockerfilePath: ./Dockerfile
+    buildCommand: |
+      composer install
+      php artisan key:generate
+      php artisan migrate --force
     startCommand: |
-      bash -c "
-        until nc -z math_db.onrender.com 5432; do
-          echo '⏳ Waiting for PostgreSQL...';
-          sleep 3;
-        done;
-        composer install --no-interaction --prefer-dist --optimize-autoloader && \
-        php artisan migrate --force && \
-        php artisan config:cache && \
-        apache2-foreground
-      "
+      php artisan serve --host=0.0.0.0 --port=10000
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_KEY
+        value: YOUR-GENERATED-KEY-HERE
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: dpg-d1f1487gi27c7386ju00-a
+      - key: DB_PORT
+        value: 5432
+      - key: DB_DATABASE
+        value: math_db_n86b
+      - key: DB_USERNAME
+        value: math_user
+      - key: DB_PASSWORD
+        value: fmMlbTFG41DailykbQiFNPm374x8yicf
 
