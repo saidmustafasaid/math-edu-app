@@ -6,8 +6,15 @@ services:
     branch: main
     region: oregon
     dockerfilePath: Dockerfile
+    shellTimeout: 600
+    autoDeploy: true  # Optional: automatic deploys on git push
+    healthCheckPath: /  # Health check endpoint
     buildCommand: |
-      composer install --no-dev --optimize-autoloader
-      php artisan key:generate
-      php artisan migrate --force || true
-    startCommand: php artisan serve --host=0.0.0.0 --port=10000
+      composer install --no-dev --optimize-autoloader --no-interaction
+      php artisan key:generate --ansi
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+    startCommand: |
+      php artisan migrate --force
+      php artisan serve --host=0.0.0.0 --port=${PORT}
