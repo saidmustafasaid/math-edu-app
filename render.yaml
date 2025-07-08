@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: math-edu-app
+    env: ruby
+    plan: free
+    branch: main
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan key:generate
+      php artisan migrate --force || true
+    startCommand: php artisan serve --host 0.0.0.0 --port $PORT
+    runtime: php
+    phpVersion: 8.2
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://math-edu-app.onrender.com
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        fromService:
+          type: mysql
+          name: math-edu-db
+          property: host
+      - key: DB_PORT
+        value: 3306
+      - key: DB_DATABASE
+        value: math_edu_db
+      - key: DB_USERNAME
+        value: root
+      - key: DB_PASSWORD
+        fromService:
+          type: mysql
+          name: math-edu-db
+          property: password
+
+databases:
+  - name: math-edu-db
+    databaseName: math_edu_db
+    user: root
+    plan: free
+    region: oregon
+
