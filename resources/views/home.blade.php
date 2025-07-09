@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8" />
     <title>{{ $lang == 'sw' ? 'UKURASA WA NYUMBANI' : 'HOME PAGE' }}</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHHX6QYHMN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VHHX6QYHMN');
+    </script>
+
     <style>
         body {
             margin: 0;
@@ -86,11 +97,11 @@
                 {{ $lang == 'sw' ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator' }}
             </a>
             <a href="{{ route('formulas', ['lang' => $lang]) }}">
-            {{ $lang == 'sw' ? 'Mifumo ya Hisabati' : 'Mathematical Formulas' }}
+                {{ $lang == 'sw' ? 'Mifumo ya Hisabati' : 'Mathematical Formulas' }}
+            </a>
             <a href="{{ route('angles', ['lang' => $lang ?? 'en']) }}">
                 {{ $lang == 'sw' ? 'Pembe Maarufu' : 'Angle Values' }}
             </a>
-            
             <a href="{{ url('constants') }}?lang={{ $lang ?? 'en' }}" 
                 style="color:#4f46e5; font-weight: bold; text-decoration: none;">
                 {{ $lang == 'sw' ? 'THAMANI' : 'CONSTANTS' }}
@@ -106,13 +117,12 @@
             <a href="{{ route('angles', ['lang' => $lang ?? 'en']) }}">
                 {{ $lang == 'sw' ? 'Pembe Maarufu' : 'Angle Values' }}
             </a>
-            
             <a href="{{ url('constants') }}?lang={{ $lang ?? 'en' }}" 
-            style="color:#4f46e5; font-weight: bold; text-decoration: none;">
-            {{ $lang == 'sw' ? 'THAMANI' : 'CONSTANTS' }}
+                style="color:#4f46e5; font-weight: bold; text-decoration: none;">
+                {{ $lang == 'sw' ? 'THAMANI' : 'CONSTANTS' }}
+            </a>
         @endif
     </div>
-    
 
     <script>
         function changeLang(lang) {
