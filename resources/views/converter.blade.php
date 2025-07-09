@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8" />
     <title>Unit Converter</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHHX6QYHMN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VHHX6QYHMN');
+    </script>
+
     <style>
         body { background:white; font-family: 'Segoe UI', Tahoma; text-align:center; padding:30px; }
         h1 { color:#4f46e5; font-size:28px; margin-bottom:20px; }
@@ -15,13 +26,12 @@
         .alert-danger { color:red; background:#fee2e2; padding:10px; border-radius:5px; margin-bottom:15px; }
         #result-display { color:#16a34a; font-size:20px; margin-top:20px; }
         .action-buttons { margin-top:20px; display:flex; justify-content:center; gap:10px; }
-        /* make only the “Home” / “Nyumbani” button green */
-        #btn-home {
-        background-color: green;
-        }
 
+        #btn-home {
+            background-color: green;
+        }
         #btn-home:hover {
-        background-color: darkgreen;
+            background-color: darkgreen;
         }
     </style>
 </head>
