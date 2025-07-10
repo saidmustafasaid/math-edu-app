@@ -3,6 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ $lang == 'sw' ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator' }}</title>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHHX6QYHMN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VHHX6QYHMN');
+    </script>
+
     <style>
         body {
             background: #f9fafb;
