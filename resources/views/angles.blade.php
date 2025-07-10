@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ $lang == 'sw' ? 'Thamani za Pembe' : 'Angle Values' }}</title>
 
-  <!-- Google tag (gtag.js) -->
+  <!-- ✅ Google AdSense Auto Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
+     crossorigin="anonymous"></script>
+
+  <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHHX6QYHMN"></script>
   <script>
     window.dataLayer = window.dataLayer || [];

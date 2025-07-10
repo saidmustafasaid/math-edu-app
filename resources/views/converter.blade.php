@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <title>Unit Converter</title>
 
+      <!-- ✅ Google AdSense Auto Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
+     crossorigin="anonymous"></script>
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHHX6QYHMN"></script>
     <script>
