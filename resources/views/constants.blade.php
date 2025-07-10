@@ -4,6 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ $lang == 'sw' ? 'Thamani za Hisabati' : 'Mathematical Constants' }}</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHHX6QYHMN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VHHX6QYHMN');
+    </script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,7 +32,7 @@
             margin-bottom: 25px;
         }
         .home-button {
-            background-color: #2e7d32; /* Green */
+            background-color: #2e7d32;
             color: white;
             padding: 10px 20px;
             font-weight: bold;
@@ -36,7 +46,7 @@
             background-color: #1b5e20;
         }
         .lang-button {
-            background-color: #1565c0; /* Blue */
+            background-color: #1565c0;
             color: white;
             border: none;
             padding: 10px 20px;
@@ -83,12 +93,10 @@
     <h1>{{ $lang == 'sw' ? 'Thamani za Hisabati' : 'Mathematical Constants' }}</h1>
 
     <div class="top-bar">
-        <!-- ✅ Green Home Button -->
         <a href="{{ url('/') }}?lang={{ $lang ?? 'en' }}" class="home-button">
             {{ $lang == 'sw' ? 'Rudi kwenye menyu kuu' : 'Home' }}
         </a>
 
-        <!-- 🌐 Language Toggle -->
         <form method="GET" action="{{ url()->current() }}" style="display:inline;">
             <input type="hidden" name="lang" value="en">
             <button type="submit" class="lang-button" {{ $lang == 'en' ? 'disabled' : '' }}>English</button>
