@@ -4,8 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ $lang == 'sw' ? 'Mifumo ya Hisabati' : 'Mathematical Formulas' }}</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHHX6QYHMN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VHHX6QYHMN');
+  </script>
+
   <style>
-    /* Reset and base */
     * {
       box-sizing: border-box;
     }
@@ -21,14 +30,12 @@
       min-height: 100vh;
     }
     h1 {
-      color: #6366f1; /* Indigo-500 */
+      color: #6366f1;
       font-weight: 700;
       margin-bottom: 20px;
       font-size: 2.5rem;
       text-align: center;
     }
-
-    /* Container for content */
     .container {
       width: 100%;
       max-width: 900px;
@@ -38,8 +45,6 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
       box-sizing: border-box;
     }
-
-    /* Language Buttons */
     .lang-buttons {
       display: flex;
       justify-content: center;
@@ -75,8 +80,6 @@
       background-color: #16a34a;
       outline: none;
     }
-
-    /* Notification */
     .notification {
       background-color: #6366f1;
       color: white;
@@ -88,8 +91,6 @@
       text-align: center;
       box-shadow: 0 5px 15px rgba(99,102,241,0.5);
     }
-
-    /* Formula sections */
     .formula-section {
       margin-bottom: 40px;
       text-align: left;
@@ -122,25 +123,15 @@
     .formula-section li:hover {
       background-color: #dbeafe;
     }
-
-    /* Responsive adjustments */
     @media (max-width: 600px) {
-      h1 {
-        font-size: 2rem;
-      }
-      .formula-section h2 {
-        font-size: 1.4rem;
-      }
-      .formula-section li {
-        font-size: 1rem;
-      }
+      h1 { font-size: 2rem; }
+      .formula-section h2 { font-size: 1.4rem; }
+      .formula-section li { font-size: 1rem; }
       .lang-buttons button {
         flex: 1 0 100%;
         max-width: 100%;
       }
     }
-
-    /* Botpress Chat Widget Customization */
     #bp-web-widget {
       width: 80px !important;
       height: 80px !important;
