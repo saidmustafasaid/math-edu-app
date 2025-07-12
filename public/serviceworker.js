@@ -1,14 +1,18 @@
 const CACHE_NAME = 'kiswahili-unit-converter-v1';
 const urlsToCache = [
   '/',
+  '/home?lang=en',
+  '/home?lang=sw',
   '/converter',
-  '/constants',
+  '/convert',              // ✅ Add this
   '/formulas',
   '/angles',
+  '/scientific_calculator',
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
 ];
+
 
 // ✅ Install: Cache available pages only
 self.addEventListener('install', function(event) {
