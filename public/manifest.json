@@ -1,11 +1,10 @@
 {
-  "name": "Kiswahili Unit Converter",
-  "short_name": "Converter",
-  "start_url": "/",
+  "name": "Math Edu App",
+  "short_name": "MathEdu",
+  "start_url": "/?lang=en",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#007BFF",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "/icons/icon-192.png",
@@ -19,4 +18,3 @@
     }
   ]
 }
-
