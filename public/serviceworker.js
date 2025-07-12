@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kiswahili-unit-converter-v1';
+const CACHE_NAME = 'math-edu-app-v1';
 const urlsToCache = [
   '/',
   '/converter',
@@ -9,25 +9,41 @@ const urlsToCache = [
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
-  // Add more routes or static assets if needed (CSS/JS)
+  // Optional: Add CSS/JS if needed
 ];
 
 self.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(function(cache) {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then(function(cache) {
+      console.log('[ServiceWorker] Caching app shell');
+      return cache.addAll(urlsToCache);
+    })
+  );
+});
+
+self.addEventListener('activate', function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(key) {
+          if (key !== CACHE_NAME) {
+            console.log('[ServiceWorker] Removing old cache', key);
+            return caches.delete(key);
+          }
+        })
+      );
+    })
   );
 });
 
 self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        return response || fetch(event.request);
-      })
+    caches.match(event.request).then(function(response) {
+      return response || fetch(event.request).catch(() => {
+        return new Response('You are offline and the content is not cached.', {
+          headers: { 'Content-Type': 'text/plain' }
+        });
+      });
+    })
   );
 });
-
