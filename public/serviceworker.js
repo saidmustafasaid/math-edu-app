@@ -3,15 +3,22 @@ const urlsToCache = [
   '/',
   '/home?lang=en',
   '/home?lang=sw',
-  '/converter',
-  '/convert',              // ✅ Add this
-  '/formulas',
-  '/angles',
-  '/scientific_calculator',
+  '/converter?lang=en',
+  '/converter?lang=sw',
+  '/convert',
+  '/constants?lang=en',
+  '/constants?lang=sw',
+  '/formulas?lang=en',
+  '/formulas?lang=sw',
+  '/angles?lang=en',
+  '/angles?lang=sw',
+  '/scientific_calculator?lang=en',
+  '/scientific_calculator?lang=sw',
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
 ];
+
 
 
 // ✅ Install: Cache available pages only
