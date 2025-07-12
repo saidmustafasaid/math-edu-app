@@ -106,6 +106,29 @@
         }
     </style>
 </head>
+<!-- PWA Support -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#007BFF">
+
+<!-- iOS + Android PWA support -->
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes"> <!-- ✅ NEW and recommended -->
+<meta name="apple-mobile-web-app-capable" content="yes"> <!-- (still okay to keep) -->
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+
+<!-- Service Worker -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/serviceworker.js')
+      .then(function(registration) {
+        console.log('Service Worker registered with scope:', registration.scope);
+      }).catch(function(error) {
+        console.error('Service Worker registration failed:', error);
+      });
+  }
+</script>
+
 <body>
 
     <div class="content">

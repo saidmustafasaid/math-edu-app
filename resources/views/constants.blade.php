@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{{ $lang == 'sw' ? 'Thamani za Hisabati' : 'Mathematical Constants' }}</title>
 
-      <!-- ✅ Google AdSense Auto Ads -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
+    <!-- ✅ Google AdSense Auto Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
      crossorigin="anonymous"></script>
 
-    <!-- Google tag (gtag.js) -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHHX6QYHMN"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -34,6 +34,10 @@
         .top-bar {
             text-align: center;
             margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         .home-button {
             background-color: #2e7d32;
@@ -42,8 +46,6 @@
             font-weight: bold;
             text-decoration: none;
             border-radius: 6px;
-            margin: 0 10px;
-            display: inline-block;
             transition: background-color 0.3s;
         }
         .home-button:hover {
@@ -56,7 +58,6 @@
             padding: 10px 20px;
             font-weight: bold;
             border-radius: 6px;
-            margin: 0 5px;
             cursor: pointer;
             transition: background-color 0.3s;
         }
@@ -69,7 +70,8 @@
             cursor: not-allowed;
         }
         table {
-            width: 80%;
+            width: 90%;
+            max-width: 1000px;
             margin: 0 auto;
             border-collapse: collapse;
             box-shadow: 0 0 10px #90caf9;
@@ -81,6 +83,7 @@
             padding: 12px 15px;
             border-bottom: 1px solid #bbdefb;
             text-align: left;
+            font-size: 1rem;
         }
         th {
             background-color: #90caf9;
@@ -90,8 +93,41 @@
         tr:last-child td {
             border-bottom: none;
         }
+        @media (max-width: 600px) {
+            body {
+                margin: 10px;
+            }
+            table, th, td {
+                font-size: 0.9rem;
+            }
+            .home-button, .lang-button {
+                width: 100%;
+                text-align: center;
+            }
+        }
     </style>
 </head>
+
+<!-- PWA Support -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#007BFF">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<!-- Service Worker -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/serviceworker.js')
+      .then(function(registration) {
+        console.log('Service Worker registered with scope:', registration.scope);
+      }).catch(function(error) {
+        console.error('Service Worker registration failed:', error);
+      });
+  }
+</script>
+
 <body>
 
     <h1>{{ $lang == 'sw' ? 'Thamani za Hisabati' : 'Mathematical Constants' }}</h1>
@@ -101,11 +137,11 @@
             {{ $lang == 'sw' ? 'Rudi kwenye menyu kuu' : 'Home' }}
         </a>
 
-        <form method="GET" action="{{ url()->current() }}" style="display:inline;">
+        <form method="GET" action="{{ url()->current() }}">
             <input type="hidden" name="lang" value="en">
             <button type="submit" class="lang-button" {{ $lang == 'en' ? 'disabled' : '' }}>English</button>
         </form>
-        <form method="GET" action="{{ url()->current() }}" style="display:inline;">
+        <form method="GET" action="{{ url()->current() }}">
             <input type="hidden" name="lang" value="sw">
             <button type="submit" class="lang-button" {{ $lang == 'sw' ? 'disabled' : '' }}>Kiswahili</button>
         </form>

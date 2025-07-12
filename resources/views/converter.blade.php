@@ -2,42 +2,141 @@
 <html lang="{{ $lang }}">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Unit Converter</title>
 
-      <!-- ✅ Google AdSense Auto Ads -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
+    <!-- ✅ Google AdSense Auto Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
      crossorigin="anonymous"></script>
 
-    <!-- Google Analytics -->
+    <!-- ✅ Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHHX6QYHMN"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-VHHX6QYHMN');
     </script>
 
     <style>
-        body { background:white; font-family: 'Segoe UI', Tahoma; text-align:center; padding:30px; }
-        h1 { color:#4f46e5; font-size:28px; margin-bottom:20px; }
-        label { display:block; margin:10px 0 5px; color:#1f2937; font-weight:bold; font-size:14px; text-align:left; }
-        select, input[type="number"] { padding:6px; margin-bottom:15px; border:1px solid #cbd5e1; border-radius:4px; width:100%; box-sizing:border-box; }
-        button { background:#4f46e5; color:#fff; padding:8px 20px; border:none; border-radius:4px; cursor:pointer; font-weight:bold; margin-top:10px; }
-        button:hover { background:#4338ca; }
-        .converter-row { display:flex; justify-content:space-between; gap:15px; max-width:700px; margin:auto; text-align:left; }
-        .converter-group { flex:1; min-width:150px; display:flex; flex-direction:column; }
-        .alert-danger { color:red; background:#fee2e2; padding:10px; border-radius:5px; margin-bottom:15px; }
-        #result-display { color:#16a34a; font-size:20px; margin-top:20px; }
-        .action-buttons { margin-top:20px; display:flex; justify-content:center; gap:10px; }
-
+        body {
+            background:white;
+            font-family: 'Segoe UI', Tahoma;
+            text-align:center;
+            padding:30px;
+        }
+        h1 {
+            color:#4f46e5;
+            font-size:28px;
+            margin-bottom:20px;
+        }
+        label {
+            display:block;
+            margin:10px 0 5px;
+            color:#1f2937;
+            font-weight:bold;
+            font-size:14px;
+            text-align:left;
+        }
+        select, input[type="number"] {
+            padding:6px;
+            margin-bottom:15px;
+            border:1px solid #cbd5e1;
+            border-radius:4px;
+            width:100%;
+            box-sizing:border-box;
+        }
+        button {
+            background:#4f46e5;
+            color:#fff;
+            padding:8px 20px;
+            border:none;
+            border-radius:4px;
+            cursor:pointer;
+            font-weight:bold;
+            margin-top:10px;
+        }
+        button:hover {
+            background:#4338ca;
+        }
+        .converter-row {
+            display:flex;
+            justify-content:space-between;
+            gap:15px;
+            max-width:700px;
+            margin:auto;
+            text-align:left;
+            flex-wrap: wrap;
+        }
+        .converter-group {
+            flex:1;
+            min-width:150px;
+            display:flex;
+            flex-direction:column;
+        }
+        .alert-danger {
+            color:red;
+            background:#fee2e2;
+            padding:10px;
+            border-radius:5px;
+            margin-bottom:15px;
+        }
+        #result-display {
+            color:#16a34a;
+            font-size:20px;
+            margin-top:20px;
+        }
+        .action-buttons {
+            margin-top:20px;
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:center;
+            gap:10px;
+        }
         #btn-home {
             background-color: green;
         }
         #btn-home:hover {
             background-color: darkgreen;
         }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px;
+            }
+            .converter-row {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .action-buttons button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
     </style>
+    <!-- PWA Support -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#007BFF">
+
+<!-- iOS + Android PWA support -->
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<meta name="mobile-web-app-capable" content="yes"> <!-- ✅ NEW and recommended -->
+<meta name="apple-mobile-web-app-capable" content="yes"> <!-- (still okay to keep) -->
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+
+<!-- Service Worker -->
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/serviceworker.js')
+      .then(function(registration) {
+        console.log('Service Worker registered with scope:', registration.scope);
+      }).catch(function(error) {
+        console.error('Service Worker registration failed:', error);
+      });
+  }
+</script>
+
 </head>
 <body>
     <h1 id="title">{{ $lang=='sw'?'Kibadilisha Vitengo':'Unit Converter' }}</h1>
@@ -46,7 +145,10 @@
         <button type="button" id="lang-sw">Kiswahili</button>
     </div>
 
-    <form method="POST" action="{{ route('convert') }}">
+    <p>Form Action: {{ request()->getSchemeAndHttpHost() }}/convert</p>
+
+    <form method="POST" action="{{ url('/convert') }}">
+
         @csrf
         <input type="hidden" name="lang" id="lang-input" value="{{ $lang }}">
 

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ $lang == 'sw' ? 'Mifumo ya Hisabati' : 'Mathematical Formulas' }}</title>
 
-    <!-- ✅ Google AdSense Auto Ads -->
+  <!-- ✅ Google AdSense Auto Ads -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
      crossorigin="anonymous"></script>
 
@@ -18,10 +18,30 @@
     gtag('config', 'G-VHHX6QYHMN');
   </script>
 
-  <style>
-    * {
-      box-sizing: border-box;
+  <!-- PWA Support -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#007BFF">
+
+  <!-- iOS + Android PWA support -->
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/serviceworker.js')
+        .then(function(registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+        }).catch(function(error) {
+          console.error('Service Worker registration failed:', error);
+        });
     }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f3f4f6;
@@ -47,7 +67,6 @@
       padding: 25px 30px;
       border-radius: 12px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-      box-sizing: border-box;
     }
     .lang-buttons {
       display: flex;
@@ -82,7 +101,6 @@
     .lang-buttons .home-btn:hover,
     .lang-buttons .home-btn:focus {
       background-color: #16a34a;
-      outline: none;
     }
     .notification {
       background-color: #6366f1;
@@ -122,7 +140,6 @@
       box-shadow: inset 0 0 5px rgba(99,102,241,0.2);
       user-select: text;
       transition: background-color 0.3s ease;
-      cursor: default;
     }
     .formula-section li:hover {
       background-color: #dbeafe;
@@ -134,6 +151,9 @@
       .lang-buttons button {
         flex: 1 0 100%;
         max-width: 100%;
+      }
+      .container {
+        padding: 20px 15px;
       }
     }
     #bp-web-widget {
@@ -155,6 +175,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <h1>{{ $lang == 'sw' ? 'Mifumo ya Hisabati' : 'Mathematical Formulas' }}</h1>

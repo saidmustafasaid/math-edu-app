@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title>{{ $lang == 'sw' ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator' }}</title>
 
-      <!-- ✅ Google AdSense Auto Ads -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
+    <!-- ✅ Google AdSense Auto Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
      crossorigin="anonymous"></script>
 
     <!-- Google Analytics -->
@@ -14,8 +14,31 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-VHHX6QYHMN');
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#007BFF">
+
+    <!-- iOS + Android PWA support -->
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <!-- Service Worker -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/serviceworker.js')
+          .then(function(registration) {
+            console.log('Service Worker registered with scope:', registration.scope);
+          }).catch(function(error) {
+            console.error('Service Worker registration failed:', error);
+          });
+      }
     </script>
 
     <style>
@@ -75,11 +98,14 @@
         }
         .lang-buttons {
             margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .lang-buttons button {
             background: #4f46e5;
             padding: 8px 15px;
-            margin: 0 5px;
+            margin: 5px;
             border: none;
             border-radius: 5px;
             color: white;
@@ -92,6 +118,29 @@
         }
         #home-btn:hover {
             background: darkgreen;
+        }
+
+        /* ✅ Mobile Responsiveness */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            .calculator {
+                padding: 15px;
+                width: 100%;
+            }
+            .display {
+                height: 50px;
+                font-size: 18px;
+                padding: 8px;
+            }
+            button {
+                padding: 12px 0;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -158,9 +207,9 @@
 
     function setLang(selectedLang) {
         lang = selectedLang;
-        document.getElementById('title').textContent = 
+        document.getElementById('title').textContent =
             (lang === 'sw') ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator';
-        document.getElementById('home-btn').textContent = 
+        document.getElementById('home-btn').textContent =
             (lang === 'sw') ? 'Rudi kwenye menyu kuu' : 'Home';
     }
 

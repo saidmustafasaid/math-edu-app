@@ -18,6 +18,26 @@
     gtag('config', 'G-VHHX6QYHMN');
   </script>
 
+  <!-- PWA Support -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#007BFF">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/serviceworker.js')
+        .then(function(reg) {
+          console.log('Service Worker registered:', reg.scope);
+        }).catch(function(err) {
+          console.error('Service Worker registration failed:', err);
+        });
+    }
+  </script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -30,20 +50,29 @@
       margin-bottom: 20px;
       font-weight: 700;
       color: #0d47a1;
+      font-size: 2.3rem;
     }
     .top-bar {
       text-align: center;
       margin-bottom: 25px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .home-button,
+    .lang-button {
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
     .home-button {
       background-color: #2e7d32;
       color: white;
-      padding: 10px 20px;
-      font-weight: bold;
       text-decoration: none;
-      border-radius: 6px;
-      margin: 0 10px;
-      display: inline-block;
     }
     .home-button:hover {
       background-color: #1b5e20;
@@ -51,20 +80,16 @@
     .lang-button {
       background-color: #1565c0;
       color: white;
-      border: none;
-      padding: 10px 20px;
-      font-weight: bold;
-      border-radius: 6px;
-      margin: 0 5px;
-      cursor: pointer;
     }
     .lang-button:disabled {
       background-color: #90caf9;
-      font-weight: bold;
       color: #0d47a1;
+      font-weight: bold;
+      cursor: default;
     }
     table {
-      width: 90%;
+      width: 100%;
+      max-width: 960px;
       margin: 0 auto;
       border-collapse: collapse;
       box-shadow: 0 0 10px #90caf9;
@@ -76,14 +101,46 @@
       padding: 12px 15px;
       border-bottom: 1px solid #bbdefb;
       text-align: center;
+      font-size: 1rem;
     }
     th {
       background-color: #90caf9;
       color: #0d47a1;
       font-weight: 600;
     }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      body {
+        margin: 10px;
+        padding: 5px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      table {
+        font-size: 0.85rem;
+        width: 100%;
+      }
+      th, td {
+        padding: 8px 10px;
+      }
+      .lang-button, .home-button {
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 420px) {
+      th, td {
+        font-size: 0.78rem;
+        padding: 6px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
   <h1>{{ $lang == 'sw' ? 'Thamani za Pembe Maarufu' : 'Common Angle Values' }}</h1>
@@ -92,11 +149,11 @@
     <a href="{{ url('/') }}?lang={{ $lang ?? 'en' }}" class="home-button">
       {{ $lang == 'sw' ? 'Rudi Kwenye Menyu Kuu' : 'Home' }}
     </a>
-    <form method="GET" action="{{ url()->current() }}" style="display:inline;">
+    <form method="GET" action="{{ url()->current() }}">
       <input type="hidden" name="lang" value="en">
       <button type="submit" class="lang-button" {{ $lang == 'en' ? 'disabled' : '' }}>English</button>
     </form>
-    <form method="GET" action="{{ url()->current() }}" style="display:inline;">
+    <form method="GET" action="{{ url()->current() }}">
       <input type="hidden" name="lang" value="sw">
       <button type="submit" class="lang-button" {{ $lang == 'sw' ? 'disabled' : '' }}>Kiswahili</button>
     </form>
