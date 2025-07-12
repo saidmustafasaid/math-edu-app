@@ -1,39 +1,41 @@
-const CACHE_NAME = 'kiswahili-unit-converter-v1';
+const CACHE_NAME = 'kiswahili-unit-converter-v2';
 const urlsToCache = [
   '/',
   '/converter',
+  '/constants',
   '/formulas',
   '/angles',
-  '/constants',
   '/scientific_calculator',
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
 ];
 
-self.addEventListener('install', event => {
+// ✅ Install: Add files to cache, but skip any that fail
+self.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
+    caches.open(CACHE_NAME).then(async function(cache) {
       console.log('Opened cache');
-      return Promise.all(
+
+      // Add each file safely
+      await Promise.all(
         urlsToCache.map(url =>
-          cache.add(url).catch(err => {
-            console.warn(`⚠️ Failed to cache ${url}`, err);
-          })
-        )
+          fetch(url)
+            .then(response => {
+              if (!response.ok) throw new Error(`${url} failed with status ${response.status}`);
+              return cache.put(url, response.clone());
+            })
+            .catch(err => console.warn(`Skipped caching ${url}:`, err.message))
+          )
       );
     })
   );
 });
 
-self.addEventListener('fetch', event => {
+self.addEventListener('fetch', function(event) {
   event.respondWith(
-    caches.match(event.request).then(response =>
-      response || fetch(event.request).catch(() =>
-        new Response('<h1>Offline</h1><p>You are offline. Please reconnect.</p>', {
-          headers: { 'Content-Type': 'text/html' },
-        })
-      )
-    )
+    caches.match(event.request)
+      .then(response => response || fetch(event.request))
   );
 });
+
