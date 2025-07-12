@@ -1,49 +1,39 @@
-const CACHE_NAME = 'math-edu-app-v1';
+const CACHE_NAME = 'kiswahili-unit-converter-v1';
 const urlsToCache = [
   '/',
   '/converter',
-  '/constants',
   '/formulas',
   '/angles',
+  '/constants',
   '/scientific_calculator',
   '/manifest.json',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
-  // Optional: Add CSS/JS if needed
 ];
 
-self.addEventListener('install', function(event) {
+self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(function(cache) {
-      console.log('[ServiceWorker] Caching app shell');
-      return cache.addAll(urlsToCache);
-    })
-  );
-});
-
-self.addEventListener('activate', function(event) {
-  event.waitUntil(
-    caches.keys().then(function(cacheNames) {
+    caches.open(CACHE_NAME).then(cache => {
+      console.log('Opened cache');
       return Promise.all(
-        cacheNames.map(function(key) {
-          if (key !== CACHE_NAME) {
-            console.log('[ServiceWorker] Removing old cache', key);
-            return caches.delete(key);
-          }
-        })
+        urlsToCache.map(url =>
+          cache.add(url).catch(err => {
+            console.warn(`⚠️ Failed to cache ${url}`, err);
+          })
+        )
       );
     })
   );
 });
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', event => {
   event.respondWith(
-    caches.match(event.request).then(function(response) {
-      return response || fetch(event.request).catch(() => {
-        return new Response('You are offline and the content is not cached.', {
-          headers: { 'Content-Type': 'text/plain' }
-        });
-      });
-    })
+    caches.match(event.request).then(response =>
+      response || fetch(event.request).catch(() =>
+        new Response('<h1>Offline</h1><p>You are offline. Please reconnect.</p>', {
+          headers: { 'Content-Type': 'text/html' },
+        })
+      )
+    )
   );
 });
