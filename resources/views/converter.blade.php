@@ -145,7 +145,7 @@
         <button type="button" id="lang-sw">Kiswahili</button>
     </div>
 
-    <p>Form Action: {{ request()->getSchemeAndHttpHost() }}/convert</p>
+    {{-- //<p>Form Action: {{ request()->getSchemeAndHttpHost() }}/convert</p> --}}
 
     <form method="POST" action="{{ url('/convert') }}">
 
