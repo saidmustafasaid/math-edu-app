@@ -3,20 +3,28 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $lang == 'sw' ? 'UKURASA WA NYUMBANI' : 'HOME PAGE' }}</title>
+    <title>{{ $lang === 'sw' ? 'UKURASA WA NYUMBANI' : 'HOME PAGE' }}</title>
 
     <!-- ✅ Google AdSense Auto Ads -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
      crossorigin="anonymous"></script>
 
-    <!-- Google Analytics -->
+    <!-- ✅ Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VHHX6QYHMN"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
+      function gtag(){ dataLayer.push(arguments); }
       gtag('js', new Date());
       gtag('config', 'G-VHHX6QYHMN');
     </script>
+
+    <!-- ✅ PWA Meta Tags -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#007BFF">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
     <style>
         body {
@@ -106,81 +114,59 @@
         }
     </style>
 </head>
-<!-- PWA Support -->
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#007BFF">
-
-<!-- iOS + Android PWA support -->
-<link rel="apple-touch-icon" href="/icons/icon-192.png">
-<meta name="mobile-web-app-capable" content="yes"> <!-- ✅ NEW and recommended -->
-<meta name="apple-mobile-web-app-capable" content="yes"> <!-- (still okay to keep) -->
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-
-<!-- Service Worker -->
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/serviceworker.js')
-      .then(function(registration) {
-        console.log('Service Worker registered with scope:', registration.scope);
-      }).catch(function(error) {
-        console.error('Service Worker registration failed:', error);
-      });
-  }
-</script>
 
 <body>
-
     <div class="content">
-        <h1>{{ $lang == 'en' ? 'WELCOME TO TANZANIAN STUDENTS APP' : 'KARIBU KWENYE PROGRAMU YA WANAFUNZI WA TANZANIA' }}</h1>
+        <h1>
+            {{ $lang === 'en' ? 'WELCOME TO TANZANIAN STUDENTS APP' : 'KARIBU KWENYE PROGRAMU YA WANAFUNZI WA TANZANIA' }}
+        </h1>
 
         <div class="lang-buttons">
             <button onclick="changeLang('en')">ENGLISH</button>
             <button onclick="changeLang('sw')">KISWAHILI</button>
         </div>
 
-        <p>{{ $lang == 'en' ? 'Please select a service from the menu below.' : 'Tafadhali chagua huduma kutoka kwenye menyu hapa chini.' }}</p>
+        <p>
+            {{ $lang === 'en' ? 'Please select a service from the menu below.' : 'Tafadhali chagua huduma kutoka kwenye menyu hapa chini.' }}
+        </p>
     </div>
 
     <div class="sidebar">
-        @if($lang == 'en')
-            <a href="{{ route('converter', ['lang' => $lang]) }}">UNIT CONVERTER</a>
-            <a href="{{ route('calculator', ['lang' => $lang]) }}">
-                {{ $lang == 'sw' ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator' }}
-            </a>
-            <a href="{{ route('formulas', ['lang' => $lang]) }}">
-                {{ $lang == 'sw' ? 'Mifumo ya Hisabati' : 'Mathematical Formulas' }}
-            </a>
-            <a href="{{ route('angles', ['lang' => $lang ?? 'en']) }}">
-                {{ $lang == 'sw' ? 'Pembe Maarufu' : 'Angle Values' }}
-            </a>
-            <a href="{{ url('constants') }}?lang={{ $lang ?? 'en' }}" 
-                style="color:#4f46e5; font-weight: bold; text-decoration: none;">
-                {{ $lang == 'sw' ? 'THAMANI' : 'CONSTANTS' }}
-            </a>
-        @else
-            <a href="{{ route('converter', ['lang' => $lang]) }}">KIBADILISHA VITENGO</a>
-            <a href="{{ route('calculator', ['lang' => $lang]) }}">
-                {{ $lang == 'sw' ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator' }}
-            </a>
-            <a href="{{ route('formulas', ['lang' => $lang]) }}">
-                {{ $lang == 'sw' ? 'Mifumo ya Hisabati' : 'Mathematical Formulas' }}
-            </a>
-            <a href="{{ route('angles', ['lang' => $lang ?? 'en']) }}">
-                {{ $lang == 'sw' ? 'Pembe Maarufu' : 'Angle Values' }}
-            </a>
-            <a href="{{ url('constants') }}?lang={{ $lang ?? 'en' }}" 
-                style="color:#4f46e5; font-weight: bold; text-decoration: none;">
-                {{ $lang == 'sw' ? 'THAMANI' : 'CONSTANTS' }}
-            </a>
-        @endif
+        <a href="{{ route('converter', ['lang' => $lang]) }}">
+            {{ $lang === 'en' ? 'Unit Converter' : 'Kibadilisha Vitengo' }}
+        </a>
+        <a href="{{ route('calculator', ['lang' => $lang]) }}">
+            {{ $lang === 'en' ? 'Scientific Calculator' : 'Kikokotoo cha Kisayansi' }}
+        </a>
+        <a href="{{ route('formulas', ['lang' => $lang]) }}">
+            {{ $lang === 'en' ? 'Mathematical Formulas' : 'Mifumo ya Hisabati' }}
+        </a>
+        <a href="{{ route('angles', ['lang' => $lang]) }}">
+            {{ $lang === 'en' ? 'Angle Values' : 'Pembe Maarufu' }}
+        </a>
+        <a href="{{ url('constants') }}?lang={{ $lang }}">
+            {{ $lang === 'en' ? 'Constants' : 'Thamani' }}
+        </a>
     </div>
 
+    <!-- ✅ Language Change Logic -->
     <script>
         function changeLang(lang) {
             window.location.href = "{{ route('home') }}" + "?lang=" + lang;
         }
     </script>
 
+    <!-- ✅ Register Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/serviceworker.js')
+                .then(function(reg) {
+                    console.log('✅ Service Worker registered with scope:', reg.scope);
+                })
+                .catch(function(error) {
+                    console.error('❌ Service Worker registration failed:', error);
+                });
+        }
+    </script>
 </body>
 </html>

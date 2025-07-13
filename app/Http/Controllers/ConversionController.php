@@ -123,9 +123,26 @@ class ConversionController extends Controller
             ],
         ];
 
-        $result = session('result', null);
+        $category = old('category');
+        $value = old('value');
+        $from = old('from_unit');
+        $to = old('to_unit');
+        $result = session('result');
 
-        return view('converter', compact('units','categoryLabels','translations','lang','result'));
+        //$result = session('result', null);
+
+        //return view('converter', compact('units','categoryLabels','translations','lang','result'));
+        return view('converter', compact(
+            'units',
+            'categoryLabels',
+            'translations',
+            'lang',
+            'category',  // 👈 added
+            'value',     // 👈 added
+            'from',      // 👈 added
+            'to',        // 👈 added
+            'result'     // 👈 already present or added
+        ));
     }
 
     public function convert(Request $request)
