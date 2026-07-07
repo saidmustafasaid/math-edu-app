@@ -3,21 +3,37 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Subject;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Default admin account
+        User::firstOrCreate(
+            ['email' => 'admin@gmail.com'],
+            [
+                'name'               => 'Administrator',
+                'password'           => Hash::make('admin123'),
+                'role'               => 'admin',
+                'email_verified_at'  => now(),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Seed subjects
+        $subjects = [
+            'Mathematics', 'Physics', 'Chemistry', 'Biology',
+            'Geography', 'History', 'English', 'Kiswahili',
+            'Commerce', 'Accounting', 'Economics', 'Computer Science',
+            'Fine Arts', 'Physical Education', 'Religious Studies',
+        ];
+        foreach ($subjects as $name) {
+            Subject::firstOrCreate(['name' => $name]);
+        }
+
+        // Seed comprehensive formulas
+        $this->call(FormulaSeeder::class);
     }
 }

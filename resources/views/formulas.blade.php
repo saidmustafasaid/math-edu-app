@@ -91,7 +91,7 @@
     }
     .lang-buttons button:hover,
     .lang-buttons button:focus {
-      background-color: #4f46e5;
+      background-color: #16a34a;
       outline: none;
     }
     .lang-buttons .home-btn {
@@ -118,7 +118,7 @@
       text-align: left;
     }
     .formula-section h2 {
-      color: #4338ca;
+      color: #15803d;
       font-size: 1.8rem;
       font-weight: 700;
       border-bottom: 3px solid #6366f1;
@@ -131,7 +131,7 @@
       margin: 0;
     }
     .formula-section li {
-      background-color: #eef2ff;
+      background-color: #f0fdf4;
       margin-bottom: 10px;
       padding: 12px 18px;
       font-family: 'Courier New', Courier, monospace;

@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:8000)",
+      "Bash(curl -s -I http://127.0.0.1:8000)",
+      "Bash(xargs cat)",
+      "Bash(curl -s http://127.0.0.1:8000/register)",
+      "Bash(curl -sL http://127.0.0.1:8000/register)",
+      "Bash(curl -sL http://127.0.0.1:8000/register -o /tmp/register.html)",
+      "Bash(ls ~/.claude/ 2>&1)",
+      "Read(//Users/saidmustafa/.claude/**)",
+      "Bash(npx uipro-cli *)",
+      "Bash(claude mcp *)",
+      "Bash(which claude *)",
+      "Read(//Users/saidmustafa/.npm-global/**)",
+      "Read(//Users/saidmustafa/.nvm/versions/**)",
+      "Bash(npm bin *)",
+      "Bash(npx which *)",
+      "Bash(find ~/Library -name \"claude\" 2>/dev/null | grep -v \".git\" | head -10)",
+      "Read(//Users/saidmustafa/Library/**)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(list\\(d.keys\\(\\)\\)\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -c \"import json,sys; json.load\\(sys.stdin\\); print\\('JSON valid'\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/saidmustafa/.claude/settings.json'\\)\\); print\\(json.dumps\\(d.get\\('mcpServers', {}\\), indent=2\\)\\)\")",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"education learning math students Tanzania landing page\" --design-system -p \"MathEduApp\")",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"education hero features stats testimonials footer\" --domain landing)"
+    ]
+  }
+}

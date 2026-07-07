@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{{ $lang == 'sw' ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator' }}</title>
 
-    <!-- ✅ Google AdSense Auto Ads -->
+    <!-- Google AdSense Auto Ads -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9366093496716678"
      crossorigin="anonymous"></script>
 
@@ -18,206 +18,331 @@
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    
+
     <!-- PWA Support -->
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#007BFF">
-
-    <!-- iOS + Android PWA support -->
+    <meta name="theme-color" content="#0f172a">
     <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-    <!-- Service Worker -->
     <script>
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/serviceworker.js')
-          .then(function(registration) {
-            console.log('Service Worker registered with scope:', registration.scope);
-          }).catch(function(error) {
-            console.error('Service Worker registration failed:', error);
-          });
+          .then(r => console.log('SW registered:', r.scope))
+          .catch(e => console.error('SW failed:', e));
       }
     </script>
 
     <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            background: #f9fafb;
-            font-family: 'Segoe UI', Tahoma;
-            padding: 30px;
-            text-align: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 16px 40px;
         }
-        h1 {
-            color: #4f46e5;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-        .calculator {
-            max-width: 400px;
-            margin: auto;
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .display {
+
+        /* ── Header ── */
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
             width: 100%;
-            height: 60px;
-            text-align: right;
-            font-size: 20px;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #cbd5e1;
-            border-radius: 5px;
-            background: #e2e8f0;
+            max-width: 420px;
         }
+
+        .header-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        h1 {
+            color: #f1f5f9;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        /* ── Language + Home bar ── */
+        .lang-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .lang-bar button {
+            flex: 1;
+            padding: 9px 0;
+            font-size: 13px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+            background: rgba(255,255,255,0.07);
+            color: #cbd5e1;
+            letter-spacing: 0.3px;
+        }
+
+        .lang-bar button:hover { background: rgba(255,255,255,0.14); color: #f1f5f9; }
+        .lang-bar button:active { transform: scale(0.96); }
+
+        #home-btn {
+            background: rgba(16,185,129,0.2) !important;
+            border-color: rgba(16,185,129,0.4) !important;
+            color: #6ee7b7 !important;
+        }
+        #home-btn:hover { background: rgba(16,185,129,0.32) !important; color: #a7f3d0 !important; }
+
+        /* ── Calculator shell ── */
+        .calculator {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow:
+                0 25px 60px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+
+        /* ── Display ── */
+        .display-wrapper {
+            background: rgba(0,0,0,0.35);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 14px 16px 12px;
+            margin-bottom: 18px;
+            text-align: right;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #expression {
+            font-size: 13px;
+            color: #64748b;
+            min-height: 18px;
+            word-break: break-all;
+            letter-spacing: 0.5px;
+        }
+
+        #display {
+            width: 100%;
+            border: none;
+            background: transparent;
+            text-align: right;
+            font-size: 32px;
+            font-weight: 300;
+            color: #f8fafc;
+            outline: none;
+            cursor: default;
+            letter-spacing: -0.5px;
+            caret-color: transparent;
+            padding: 0;
+        }
+
+        #display::selection { background: transparent; }
+
+        /* ── Button grid ── */
         .grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 10px;
         }
+
         button {
-            padding: 15px 0;
-            font-size: 16px;
-            background: #4f46e5;
-            color: white;
-            font-weight: bold;
+            padding: 0;
+            height: 56px;
+            font-size: 15px;
+            font-weight: 600;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
-        }
-        button:hover {
-            background: #4338ca;
-        }
-        .function {
-            background: #10b981;
-        }
-        .function:hover {
-            background: #059669;
-        }
-        .lang-buttons {
-            margin-bottom: 15px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .lang-buttons button {
-            background: #4f46e5;
-            padding: 8px 15px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        #home-btn {
-            background: green;
-            margin-left: 10px;
-        }
-        #home-btn:hover {
-            background: darkgreen;
+            transition: background 0.12s, transform 0.08s, box-shadow 0.12s;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.2px;
         }
 
-        /* ✅ Mobile Responsiveness */
+        button::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0);
+            transition: background 0.12s;
+        }
+
+        button:hover::after { background: rgba(255,255,255,0.08); }
+        button:active { transform: scale(0.94); }
+        button:active::after { background: rgba(0,0,0,0.15); }
+
+        /* Number buttons */
+        .btn-num {
+            background: rgba(255,255,255,0.1);
+            color: #f1f5f9;
+            border: 1px solid rgba(255,255,255,0.07);
+        }
+
+        /* Operator buttons */
+        .btn-op {
+            background: rgba(99,102,241,0.3);
+            color: #a5b4fc;
+            border: 1px solid rgba(99,102,241,0.25);
+        }
+        .btn-op:hover::after { background: rgba(255,255,255,0.12); }
+
+        /* Function buttons */
+        .btn-fn {
+            background: rgba(20,184,166,0.2);
+            color: #5eead4;
+            border: 1px solid rgba(20,184,166,0.2);
+            font-size: 13px;
+        }
+
+        /* Clear / backspace */
+        .btn-clear {
+            background: rgba(239,68,68,0.25);
+            color: #fca5a5;
+            border: 1px solid rgba(239,68,68,0.2);
+        }
+
+        .btn-back {
+            background: rgba(245,158,11,0.2);
+            color: #fcd34d;
+            border: 1px solid rgba(245,158,11,0.15);
+        }
+
+        /* Equals */
+        .btn-eq {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            border: none;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(99,102,241,0.4);
+        }
+        .btn-eq:hover::after { background: rgba(255,255,255,0.12); }
+
+        /* ── Mobile ── */
         @media (max-width: 480px) {
-            body {
-                padding: 15px;
-            }
-            h1 {
-                font-size: 22px;
-            }
-            .calculator {
-                padding: 15px;
-                width: 100%;
-            }
-            .display {
-                height: 50px;
-                font-size: 18px;
-                padding: 8px;
-            }
-            button {
-                padding: 12px 0;
-                font-size: 14px;
-            }
+            body { padding: 16px 12px 32px; }
+            h1 { font-size: 18px; }
+            .calculator { padding: 14px; }
+            #display { font-size: 26px; }
+            .grid { gap: 7px; }
+            button { height: 50px; font-size: 14px; border-radius: 8px; }
+            .btn-fn { font-size: 12px; }
         }
     </style>
 </head>
 <body>
 
-<h1 id="title">{{ $lang == 'sw' ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator' }}</h1>
+<div class="page-header">
+    <div class="header-icon">🧮</div>
+    <h1 id="title">{{ $lang == 'sw' ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator' }}</h1>
+</div>
 
-<div class="lang-buttons">
+<div class="lang-bar">
     <button type="button" onclick="setLang('en')">English</button>
     <button type="button" onclick="setLang('sw')">Kiswahili</button>
     <button type="button" id="home-btn" onclick="goHome()">
-        {{ $lang == 'sw' ? 'Rudi kwenye menyu kuu' : 'Home' }}
+        {{ $lang == 'sw' ? 'Rudi Nyumbani' : 'Home' }}
     </button>
 </div>
 
 <div class="calculator">
-    <input type="text" id="display" class="display" readonly>
+    <div class="display-wrapper">
+        <div id="expression"></div>
+        <input type="text" id="display" readonly placeholder="0">
+    </div>
 
     <div class="grid">
-        <button onclick="clearDisplay()">C</button>
-        <button onclick="backspace()">⌫</button>
-        <button onclick="appendValue('(')">(</button>
-        <button onclick="appendValue(')')">)</button>
+        <!-- Row 1: clear, back, parens, divide -->
+        <button class="btn-clear" onclick="clearDisplay()">C</button>
+        <button class="btn-back"  onclick="backspace()">⌫</button>
+        <button class="btn-fn"    onclick="appendValue('(')">(</button>
+        <button class="btn-fn"    onclick="appendValue(')')">)</button>
 
-        <button class="function" onclick="appendValue('Math.sin(')">sin</button>
-        <button class="function" onclick="appendValue('Math.cos(')">cos</button>
-        <button class="function" onclick="appendValue('Math.tan(')">tan</button>
-        <button onclick="appendValue('/')">÷</button>
+        <!-- Row 2: trig, divide -->
+        <button class="btn-fn" onclick="appendValue('Math.sin(')">sin</button>
+        <button class="btn-fn" onclick="appendValue('Math.cos(')">cos</button>
+        <button class="btn-fn" onclick="appendValue('Math.tan(')">tan</button>
+        <button class="btn-op" onclick="appendValue('/')">÷</button>
 
-        <button onclick="appendValue('7')">7</button>
-        <button onclick="appendValue('8')">8</button>
-        <button onclick="appendValue('9')">9</button>
-        <button onclick="appendValue('*')">×</button>
+        <!-- Row 3: 7 8 9 × -->
+        <button class="btn-num" onclick="appendValue('7')">7</button>
+        <button class="btn-num" onclick="appendValue('8')">8</button>
+        <button class="btn-num" onclick="appendValue('9')">9</button>
+        <button class="btn-op"  onclick="appendValue('*')">×</button>
 
-        <button onclick="appendValue('4')">4</button>
-        <button onclick="appendValue('5')">5</button>
-        <button onclick="appendValue('6')">6</button>
-        <button onclick="appendValue('-')">−</button>
+        <!-- Row 4: 4 5 6 − -->
+        <button class="btn-num" onclick="appendValue('4')">4</button>
+        <button class="btn-num" onclick="appendValue('5')">5</button>
+        <button class="btn-num" onclick="appendValue('6')">6</button>
+        <button class="btn-op"  onclick="appendValue('-')">−</button>
 
-        <button onclick="appendValue('1')">1</button>
-        <button onclick="appendValue('2')">2</button>
-        <button onclick="appendValue('3')">3</button>
-        <button onclick="appendValue('+')">+</button>
+        <!-- Row 5: 1 2 3 + -->
+        <button class="btn-num" onclick="appendValue('1')">1</button>
+        <button class="btn-num" onclick="appendValue('2')">2</button>
+        <button class="btn-num" onclick="appendValue('3')">3</button>
+        <button class="btn-op"  onclick="appendValue('+')">+</button>
 
-        <button onclick="appendValue('0')">0</button>
-        <button onclick="appendValue('.')">.</button>
-        <button onclick="calculate()">=</button>
-        <button onclick="toggleSign()">±</button>
+        <!-- Row 6: 0 . = ± -->
+        <button class="btn-num" onclick="appendValue('0')">0</button>
+        <button class="btn-num" onclick="appendValue('.')">.</button>
+        <button class="btn-eq"  onclick="calculate()">=</button>
+        <button class="btn-op"  onclick="toggleSign()">±</button>
 
-        <button class="function" onclick="appendValue('Math.log10(')">log</button>
-        <button class="function" onclick="appendValue('Math.log(')">ln</button>
-        <button class="function" onclick="appendValue('Math.sqrt(')">√</button>
-        <button class="function" onclick="appendValue('Math.pow(')">xʸ</button>
+        <!-- Row 7: log ln √ xʸ -->
+        <button class="btn-fn" onclick="appendValue('Math.log10(')">log</button>
+        <button class="btn-fn" onclick="appendValue('Math.log(')">ln</button>
+        <button class="btn-fn" onclick="appendValue('Math.sqrt(')">√</button>
+        <button class="btn-fn" onclick="appendValue('Math.pow(')">xʸ</button>
 
-        <button class="function" onclick="appendValue('Math.PI')">π</button>
-        <button class="function" onclick="appendValue('Math.E')">e</button>
-        <button class="function" onclick="appendValue('%')">mod</button>
-        <button class="function" onclick="appendValue('Math.exp(')">exp</button>
+        <!-- Row 8: π e mod exp -->
+        <button class="btn-fn" onclick="appendValue('Math.PI')">π</button>
+        <button class="btn-fn" onclick="appendValue('Math.E')">e</button>
+        <button class="btn-fn" onclick="appendValue('%')">mod</button>
+        <button class="btn-fn" onclick="appendValue('Math.exp(')">exp</button>
     </div>
 </div>
 
 <script>
     let lang = "{{ $lang }}";
+    const display    = document.getElementById('display');
+    const expression = document.getElementById('expression');
 
     function setLang(selectedLang) {
         lang = selectedLang;
         document.getElementById('title').textContent =
-            (lang === 'sw') ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator';
+            lang === 'sw' ? 'Kikokotoo cha Kisayansi' : 'Scientific Calculator';
         document.getElementById('home-btn').textContent =
-            (lang === 'sw') ? 'Rudi kwenye menyu kuu' : 'Home';
+            lang === 'sw' ? 'Rudi Nyumbani' : 'Home';
     }
 
     function goHome() {
         window.location.href = "{{ route('home') }}" + "?lang=" + lang;
     }
-
-    const display = document.getElementById('display');
 
     function appendValue(value) {
         display.value += value;
@@ -225,6 +350,7 @@
 
     function clearDisplay() {
         display.value = '';
+        expression.textContent = '';
     }
 
     function backspace() {
@@ -233,8 +359,12 @@
 
     function calculate() {
         try {
-            display.value = eval(display.value);
+            const expr = display.value;
+            const result = eval(expr);
+            expression.textContent = expr + ' =';
+            display.value = result;
         } catch {
+            expression.textContent = '';
             display.value = 'Error';
         }
     }
@@ -242,10 +372,20 @@
     function toggleSign() {
         if (display.value.startsWith('-')) {
             display.value = display.value.substring(1);
-        } else {
+        } else if (display.value) {
             display.value = '-' + display.value;
         }
     }
+
+    // Keyboard support
+    document.addEventListener('keydown', e => {
+        const key = e.key;
+        if (key >= '0' && key <= '9') appendValue(key);
+        else if (['+', '-', '*', '/', '(', ')', '.', '%'].includes(key)) appendValue(key);
+        else if (key === 'Enter' || key === '=') calculate();
+        else if (key === 'Backspace') backspace();
+        else if (key === 'Escape') clearDisplay();
+    });
 </script>
 
 </body>

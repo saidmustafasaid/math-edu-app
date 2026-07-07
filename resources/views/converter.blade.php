@@ -26,7 +26,7 @@
             padding:30px;
         }
         h1 {
-            color:#4f46e5;
+            color:#16a34a;
             font-size:28px;
             margin-bottom:20px;
         }
@@ -47,7 +47,7 @@
             box-sizing:border-box;
         }
         button {
-            background:#4f46e5;
+            background:#16a34a;
             color:#fff;
             padding:8px 20px;
             border:none;
@@ -57,7 +57,7 @@
             margin-top:10px;
         }
         button:hover {
-            background:#4338ca;
+            background:#15803d;
         }
         .converter-row {
             display:flex;
